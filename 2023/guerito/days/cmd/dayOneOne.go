@@ -1,11 +1,15 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strconv"
+	"strings"
+	"unicode"
 
 	"github.com/spf13/cobra"
 )
@@ -13,15 +17,51 @@ import (
 // dayOneOneCmd represents the dayOneOne command
 var dayOneOneCmd = &cobra.Command{
 	Use:   "dayOneOne",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Solve Day One Question one",
+	Long:  `No need for a long description`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("dayOneOne called")
+
+		// filePath := os.Args[1]
+		readFile, err := os.Open("inputs/oneOne.txt")
+
+		if err != nil {
+			fmt.Println(err)
+		}
+		fileScanner := bufio.NewScanner(readFile)
+
+		fileScanner.Split(bufio.ScanLines)
+
+		var total int
+
+		for fileScanner.Scan() {
+			str := fileScanner.Text()
+			int1 := 'a'
+			var int2 rune
+
+			for _, character := range str {
+				if unicode.IsDigit(character) {
+					if int1 == 'a' {
+						int1 = character
+					}
+					int2 = character
+				}
+			}
+			var sb strings.Builder
+			sb.WriteRune(int1)
+			sb.WriteRune(int2)
+
+			temp, err := strconv.Atoi(sb.String())
+
+			if err != nil {
+				fmt.Println(err)
+			}
+			if err == nil {
+				total = temp + total
+			}
+		}
+
+		fmt.Println(total)
+		readFile.Close()
 	},
 }
 
