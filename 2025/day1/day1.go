@@ -146,7 +146,7 @@ func isZeroAdd(current int, zeroCnt int) int {
 
 func roundOverAddCountRollover(current int, add int) (int, int) {
 	combo := current + add
-	currPos := combo % (100)
+	currPos := combo % (200)
 	zeroCnt := 0
 	if combo > 100 {
 		zeroCnt += (combo - currPos) / 100
